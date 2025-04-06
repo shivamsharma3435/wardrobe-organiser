@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Wardrobe Organizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tshirt"></i> AI Wardrobe Organizer</h1>
+        </header>
+        
+        <div class="app-container">
+            <div class="sidebar">
+                <nav>
+                    <ul>
+                        <li class="active"><i class="fas fa-home"></i> Dashboard</li>
+                        <li><i class="fas fa-tshirt"></i> My Wardrobe</li>
+                        <li><i class="fas fa-magic"></i> Outfit Generator</li>
+                        <li><i class="fas fa-shopping-bag"></i> Shopping List</li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="main-content">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">
+                            <div class="message-content">
+                                <p>Hello! I'm your AI wardrobe assistant. How can I help you organize your wardrobe today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-container">
+                        <textarea id="userInput" placeholder="Ask me about outfit ideas, organizing your wardrobe, or upload an image of clothing..."></textarea>
+                        <div class="action-buttons">
+                            <button id="uploadBtn"><i class="fas fa-camera"></i></button>
+                            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wardrobe-view" style="display: none;">
+                    <div class="filter-section">
+                        <h3>Filter Items</h3>
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Tops</button>
+                            <button class="filter-btn">Bottoms</button>
+                            <button class="filter-btn">Dresses</button>
+                            <button class="filter-btn">Shoes</button>
+                            <button class="filter-btn">Accessories</button>
+                        </div>
+                    </div>
+                    
+                    <div class="wardrobe-items">
+                        <!-- Clothing items will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div class="outfit-generator" style="display: none;">
+                    <h2>AI Outfit Generator</h2>
+                    <div class="generator-options">
+                        <div class="option">
+                            <label>Occasion:</label>
+                            <select id="occasion">
+                                <option value="casual">Casual</option>
+                                <option value="work">Work</option>
+                                <option value="formal">Formal</option>
+                                <option value="workout">Workout</option>
+                            </select>
+                        </div>
+                        <div class="option">
+                            <label>Weather:</label>
+                            <select id="weather">
+                                <option value="hot">Hot</option>
+                                <option value="warm">Warm</option>
+                                <option value="cool">Cool</option>
+                                <option value="cold">Cold</option>
+                            </select>
+                        </div>
+                        <button id="generateOutfit">Generate Outfit</button>
+                    </div>
+                    <div class="generated-outfit">
+                        <!-- Generated outfit will appear here -->
+                    </div>    
+                </div>
+
+                <div class="shopping-list" style="display: none;">
+                    <div class="shopping-list-header">
+                        <h2>Shopping List</h2>
+                        <div class="list-actions">
+                            <button id="createNewList"><i class="fas fa-plus"></i> New List</button>
+                            <div class="budget-tracker">
+                                <span>Budget: </span>
+                                <span id="budgetAmount">₹ 0</span>
+                                <button id="setBudget"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shopping-lists-container">
+                        <div class="lists-sidebar">
+                            <h3>My Lists</h3>
+                            <ul id="shoppingListsNav">
+                                <li class="active" data-list-id="essentials">
+                                    <span>Wardrobe Essentials</span>
+                                    <span class="item-count">0</span>
+                                </li>
+                                <li data-list-id="summer">
+                                    <span>Summer Vacation</span>
+                                    <span class="item-count">0</span>
+                                </li>
+                                <li data-list-id="workwear">
+                                    <span>Work Capsule</span>
+                                    <span class="item-count">0</span>
+                                </li>
+                            </ul>
+                            <div class="list-stats">
+                                <div class="stat">
+                                    <span>Total Items:</span>
+                                    <span id="totalItems">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="active-list-container">
+                            <div class="list-tools">
+                                <div class="list-view-options">
+                                    <button class="view-option active" data-view="list"><i class="fas fa-list"></i></button>
+                                    <button class="view-option" data-view="grid"><i class="fas fa-th-large"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="shopping-items-container list-view" id="currentShoppingList">
+                                <!-- Items will be populated by JavaScript -->
+                            </div>
+
+                            <div class="add-item-container">
+                                <h3>Add New Item</h3>
+                                <form id="addItemForm">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="itemName">Item Name</label>
+                                            <input type="text" id="itemName" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="itemCategory">Category</label>
+                                            <select id="itemCategory">
+                                                <option value="tops">Tops</option>
+                                                <option value="bottoms">Bottoms</option>
+                                                <option value="dresses">Dresses</option>
+                                                <option value="shoes">Shoes</option>
+                                                <option value="accessories">Accessories</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="itemPrice">Price (₹)</label>
+                                            <input type="number" id="itemPrice" min="0" step="0.01">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="itemPriority">Priority</label>
+                                            <select id="itemPriority">
+                                                <option value="high">High</option>
+                                                <option value="medium" selected>Medium</option>
+                                                <option value="low">Low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="itemStore">Store/Link</label>
+                                            <input type="text" id="itemStore" placeholder="Store name or URL">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="itemDeadline">Need By (Optional)</label>
+                                            <input type="date" id="itemDeadline">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group full-width">
+                                            <label for="itemNotes">Notes</label>
+                                            <textarea id="itemNotes" rows="2" placeholder="Add any additional details..."></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row sustainability-options">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="sustainableOption">
+                                            <span>Looking for sustainable options</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="secondHandOption">
+                                            <span>Consider second-hand</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-buttons">
+                                        <button type="button" id="cancelAddItem">Cancel</button>
+                                        <button type="submit" id="submitAddItem">Add Item</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <input type="file" id="addClothingInput" accept="image/*" style="display: none;">
+    
+    <script src="script.js"></script>
+</body>
+</html>
