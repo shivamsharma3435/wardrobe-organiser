@@ -13,7 +13,7 @@ const generateOutfitBtn = document.getElementById('generateOutfit');
 let wardrobeItems = []; // Clear all default items
 
 // Gemini API key - To be replaced with your actual API key
-const GEMINI_API_KEY = 'AIzaSyDVviUt4RzseHALdzw5lm0pOA8iX55LJA8';
+const GEMINI_API_KEY = 'Your-Actual-API-Key';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
 
 // Shopping List Data Structure
